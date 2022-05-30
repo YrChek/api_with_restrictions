@@ -1,0 +1,73 @@
+# примеры API-запросов
+
+@baseUrl = http://localhost:8000/api
+
+# получение объявлений
+GET {{baseUrl}}/advertisements/
+Content-Type: application/json
+
+###
+
+# создание объявления
+POST {{baseUrl}}/advertisements/
+Content-Type: application/json
+Authorization: Token 9fd4efbb881038c4fed076a46ed1470f10baaebe
+
+{
+  "title": "Черновик",
+  "description": "User3",
+  "status": "DRAFT"
+}
+
+###
+
+# попытка поменять объявление
+PATCH {{baseUrl}}/advertisements/2/
+Content-Type: application/json
+Authorization: Token e85753eaa044b2b00f0400a2ef4049f2a5ad7ebb
+
+{
+  "status": "CLOSED"
+}
+
+###
+
+# фильтрация по создателю
+GET {{baseUrl}}/advertisements/?creator=3
+Content-Type: application/json
+Authorization: Token 2b736fdf673cf8f3f7668c5356c10b53ef8392c0
+
+###
+
+# фильтрация по дате
+GET {{baseUrl}}/advertisements/?created_at_before=2022-05-18
+Content-Type: application/json
+
+###
+
+# удаление
+
+DELETE  {{baseUrl}}/advertisements/18/
+Content-Type: application/json
+Authorization: Token e85753eaa044b2b00f0400a2ef4049f2a5ad7ebb
+
+###
+
+# создание избранного
+POST  {{baseUrl}}/advertisements/1/favorite/
+Content-Type: application/json
+Authorization: Token e85753eaa044b2b00f0400a2ef4049f2a5ad7ebb
+
+###
+
+# выбор избранного
+GET {{baseUrl}}/advertisements/1/favorite/
+Content-Type: application/json
+Authorization: Token 9fd4efbb881038c4fed076a46ed1470f10baaebe
+
+###
+
+# все избранное
+GET {{baseUrl}}/advertisements/favorites/
+Content-Type: application/json
+Authorization: Token e85753eaa044b2b00f0400a2ef4049f2a5ad7ebb
