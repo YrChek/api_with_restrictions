@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.throttling import AnonRateThrottle
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 from rest_framework.viewsets import ModelViewSet
 
 from advertisements.filters import AdvertisementFilter
@@ -17,8 +17,7 @@ class AdvertisementViewSet(ModelViewSet):
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
     filterset_class = AdvertisementFilter
-    throttle_classes = [AnonRateThrottle]
-
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def get_permissions(self):
         """Получение прав для действий."""
@@ -34,9 +33,12 @@ class AdvertisementViewSet(ModelViewSet):
             if int(creator) == self.request.user.id or self.request.user.is_staff:
                 queryset = Advertisement.objects.filter(creator=creator)
             else:
-                queryset = Advertisement.objects.filter(creator=creator).exclude(status = 'DRAFT')
+                queryset = Advertisement.objects.filter(creator=creator).exclude(status='DRAFT')
             return queryset
-        queryset = Advertisement.objects.exclude(status = 'DRAFT')
+        if self.request.user.is_staff:
+            queryset = Advertisement.objects.all()
+        else:
+            queryset = Advertisement.objects.exclude(status='DRAFT')
         return queryset
 
     @action(methods=['post', 'get'], detail=True)

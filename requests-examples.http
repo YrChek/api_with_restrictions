@@ -5,6 +5,7 @@
 # получение объявлений
 GET {{baseUrl}}/advertisements/
 Content-Type: application/json
+# Authorization: Token 2b736fdf673cf8f3f7668c5356c10b53ef8392c0
 
 ###
 
@@ -14,20 +15,20 @@ Content-Type: application/json
 Authorization: Token 9fd4efbb881038c4fed076a46ed1470f10baaebe
 
 {
-  "title": "Черновик",
+  "title": "Открыто",
   "description": "User3",
-  "status": "DRAFT"
+  "status": "OPEN"
 }
 
 ###
 
 # попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/2/
+PATCH {{baseUrl}}/advertisements/4/
 Content-Type: application/json
 Authorization: Token e85753eaa044b2b00f0400a2ef4049f2a5ad7ebb
 
 {
-  "status": "CLOSED"
+  "status": "DRAFT"
 }
 
 ###
@@ -35,7 +36,14 @@ Authorization: Token e85753eaa044b2b00f0400a2ef4049f2a5ad7ebb
 # фильтрация по создателю
 GET {{baseUrl}}/advertisements/?creator=3
 Content-Type: application/json
-Authorization: Token 2b736fdf673cf8f3f7668c5356c10b53ef8392c0
+# Authorization: Token e85753eaa044b2b00f0400a2ef4049f2a5ad7ebb
+
+###
+
+# фильтрация по статусу
+GET {{baseUrl}}/advertisements/?status=OPEN
+Content-Type: application/json
+# Authorization: Token e85753eaa044b2b00f0400a2ef4049f2a5ad7ebb
 
 ###
 
@@ -70,4 +78,4 @@ Authorization: Token 9fd4efbb881038c4fed076a46ed1470f10baaebe
 # все избранное
 GET {{baseUrl}}/advertisements/favorites/
 Content-Type: application/json
-Authorization: Token e85753eaa044b2b00f0400a2ef4049f2a5ad7ebb
+Authorization: Token 9fd4efbb881038c4fed076a46ed1470f10baaebe
